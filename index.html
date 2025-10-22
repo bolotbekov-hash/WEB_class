@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alibek - Java Developer</title>
+  <link rel="stylesheet" href="style.css"></link>
+</head>
+
+<body>
+<!-- Header -->
+  <header>
+    <div class="logo">Alibek</div>
+    <nav>
+      <a href="#home" class="nav-link active">Home</a>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#services" class="nav-link">Services</a>
+      <a href="#projects" class="nav-link">Projects</a>
+      <a href="#contact" class="nav-link">Resume</a>
+      <button class="cta-button" onclick="contactMe()">Contact Me</button>
+      <button class="theme-toggle" onclick="toggleTheme()">☀</button>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <div class="avatar">
+      <img src="alibeklogo.jpg" alt="">
+    </div>
+    <h1>Alibek Bolotbekov</h1>
+    <p class="title">Java Developer</p>
+    <p>I’m a 2nd-year student at Ala-Too International University. A passionate backend developer who loves turning ideas into working code, constantly learning and exploring new technologies.</p>
+    <button class="cta-button" onclick="contactMe()">Contact Me</button>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="about">
+    <div class="section-header">
+      <h2>About Me</h2>
+      <span class="subtitle">Get to know me</span>
+    </div>
+    <p>I’m a junior backend developer with a strong foundation in Java and the Spring ecosystem. I recently completed a backend development course, where I gained hands-on experience building RESTful applications using Spring Boot, Spring Security, and Maven.</p>
+    <p>I’m passionate about creating efficient, scalable, and secure backend solutions. In addition to Java, I have solid knowledge of HTML, CSS, and JavaScript, which helps me understand the full web development process and collaborate effectively with frontend teams.</p>
+    <p>Currently, I’m working on a personal web portfolio project that showcases both my backend and frontend skills. I’m eager to continue learning, contribute to real-world projects, and grow as a professional developer within a strong engineering team.</p>
+    <p>Tech stack: Java | Spring Boot | Spring Security | Maven | Git | HTML | CSS | JavaScript</p>
+    <button class="cta-button" onclick="downloadResume()">Download Resume</button>
+  </section>
+
+  <!-- Services Section -->
+  <section id="services" class="services">
+    <div class="section-header">
+      <h2>What I do</h2>
+      <span class="subtitle">My Services</span>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">⚙️</div>
+        <h3>Backend Development</h3>
+        <p>I build robust, secure, and scalable backend systems using Java and Spring Boot, ensuring smooth data flow and reliable server performance.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">🔐</div>
+        <h3>API Design & Integration</h3>
+        <p>I design and implement RESTful APIs that connect frontend and backend systems seamlessly, focusing on clean architecture and performance.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">🧠</div>
+        <h3>Database Management</h3>
+        <p>I work with SQL and relational databases to design efficient data models and queries that power dynamic web applications.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">💻</div>
+        <h3>Web Development</h3>
+        <p>I create full-stack web applications using HTML, CSS, JavaScript, and backend frameworks — turning ideas into working web solutions.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects" class="projects">
+    <div class="section-header">
+      <h2>Projects</h2>
+      <span class="subtitle">Some of my Work</span>
+    </div>
+
+    <div class="filter-tags">
+      <button class="tag active">Java</button>
+      <button class="tag">Spring Boot</button>
+      <button class="tag">SQL</button>
+      <button class="tag">Web</button>
+      <button class="tag">API</button>
+    </div>
+
+    <div class="projects-grid">
+      <div class="project-card" data-category="java springboot postgresql">
+        <div class="project-image">🏫</div>
+        <div class="project-info">
+          <h3>Kindergarten Management System</h3>
+          <div class="project-tech">
+            <span>Java / Spring Boot / PostgreSQL</span>
+            <div class="project-icon">→</div>
+          </div>
+          <p>A web application for managing children, groups, teachers, and payments in a kindergarten. Built with REST API architecture and secured using Spring Security.</p>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-image">📚</div>
+        <div class="project-info">
+          <h3>Library Management System</h3>
+          <div class="project-tech">
+            <span>Java / SQLite / JDBC</span>
+            <div class="project-icon">→</div>
+          </div>
+          <p>Desktop application that allows users to manage books, authors, and rentals. Implements CRUD operations and data persistence using JDBC.</p>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-image">🌐</div>
+        <div class="project-info">
+          <h3>Personal Portfolio Website</h3>
+          <div class="project-tech">
+            <span>HTML / CSS / JavaScript</span>
+            <div class="project-icon">→</div>
+          </div>
+          <p>Responsive web portfolio showcasing my projects, skills, and contact information. Designed and built from scratch using front-end technologies.</p>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-image">🧠</div>
+        <div class="project-info">
+          <h3>REST API for Student Management</h3>
+          <div class="project-tech">
+            <span>Java / Spring Boot / Maven / Git</span>
+            <div class="project-icon">→</div>
+          </div>
+          <p>RESTful API built with Spring Boot for managing student data, including pagination, sorting, and authentication layers.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="view-all">
+      <button class="cta-button" onclick="viewAllProjects()">View All</button>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact">
+    <div class="section-header">
+      <h2>Get In Touch</h2>
+      <span class="subtitle">Lets work together</span>
+    </div>
+    <div class="contact">
+      <form>
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" placeholder="Full name" required>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="example@email.com" required>
+        </div>
+        <div class="form-group">
+          <label>Service</label>
+          <select required>
+            <option>Select a service</option>
+            <option>Data Analytics</option>
+            <option>Machine Learning</option>
+            <option>AI Chatbots</option>
+            <option>Natural Language Processing</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea placeholder="Your message here..." required></textarea>
+        </div>
+        <button type="submit" class="submit-button">Get in Touch</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div>
+        <p style="font-size: 1.2rem; margin-bottom: 0.5rem;">Let's Work Together -</p>
+        <p>© 2025 All Rights Reserved.</p>
+      </div>
+      <div style="display: flex; text-align: right; gap: 0.5rem;">
+        <span>📧</span>
+        <span>AlibekBolotbekov@gmail.com</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
