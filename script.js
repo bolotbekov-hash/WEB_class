@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initializeNavigation();
   loadThemePreference();
   initializeFormHandling();
-  initializeProjectFiltering();
+  initBurgerMenu();
 });
 
 // Setup smooth scrolling for all nav links
@@ -208,49 +208,8 @@ LANGUAGES
 
   console.log('Resume downloaded successfully');
 }
-
 // ============================================
-// 4. PROJECT FILTERING
-// ============================================
-
-// Initialize project filtering functionality
-function initializeProjectFiltering() {
-  const filterTags = document.querySelectorAll('.tag');
-
-  filterTags.forEach(tag => {
-    tag.addEventListener('click', () => {
-      const category = tag.textContent.toLowerCase();
-      filterProjects(category);
-
-      // Update active tag styling
-      filterTags.forEach(t => t.classList.remove('active'));
-      tag.classList.add('active');
-    });
-  });
-}
-
-// Filter projects based on selected category
-function filterProjects(category) {
-  const projectCards = document.querySelectorAll('.project-card');
-  let visibleCount = 0;
-
-  projectCards.forEach(card => {
-    const cardCategories = card.dataset.category.toLowerCase().split(' ');
-
-    if (category === 'all' || cardCategories.includes(category)) {
-      card.style.display = 'block';
-      card.style.animation = 'fadeIn 0.3s ease-in';
-      visibleCount++;
-    } else {
-      card.style.display = 'none';
-    }
-  });
-
-  console.log(`Filtered to category: ${category}, showing ${visibleCount} projects`);
-}
-
-// ============================================
-// 5. CONTACT FORM HANDLING
+// 4. CONTACT FORM HANDLING
 // ============================================
 
 // Initialize form submission handling
@@ -317,111 +276,44 @@ function storeFormSubmission(data) {
 }
 
 // ============================================
-// 6. BUTTON EVENT HANDLERS
+// 5. BUTTON EVENT HANDLERS
 // ============================================
 
 // Handle "Contact Me" button clicks
 function contactMe() {
   smoothScrollToSection('contact');
 }
+// ============================================
+// 6. SCROLL TO TOP BUTTON
+// ============================================
 
-// Handle "View All" projects button
-function viewAllProjects() {
-  console.log('View all projects clicked');
-  alert('More projects coming soon! Stay tuned for updates.');
+function initScrollTop() {
+  const btn = document.createElement('button');
+  btn.className = 'scroll-top';
+  btn.setAttribute('aria-label', 'Back to top');
+  btn.innerHTML = '↑';
+  document.body.appendChild(btn);
+
+  // Показывать кнопку, если прокрутили ниже 300px
+  function toggleVisibility() {
+    const visible = window.scrollY > 300;
+    btn.style.opacity = visible ? '1' : '0';
+    btn.style.pointerEvents = visible ? 'auto' : 'none';
+  }
+
+  // Привязка событий
+  window.addEventListener('scroll', toggleVisibility);
+  btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  btn.addEventListener('mouseenter', () => btn.classList.add('scroll-top--hover'));
+  btn.addEventListener('mouseleave', () => btn.classList.remove('scroll-top--hover'));
+
+  // Первичная проверка
+  toggleVisibility();
 }
 
-// ============================================
-// 7. UTILITY FUNCTIONS
-// ============================================
-
-// Debounce function for performance optimization
-function debounce(func, delay) {
-  let timeoutId;
-  return function (...args) {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => func(...args), delay);
-  };
-}
-
-// Log portfolio initialization
-console.log('Portfolio JavaScript loaded successfully');
-console.log('Version: 1.0.0');
-console.log('Author: Alibek Bolotbekov');
-
-// ============================================
-// 8. PAGE PERFORMANCE MONITORING
-// ============================================
-
-// Monitor page performance
-function monitorPerformance() {
-  if (window.performance) {
-    window.addEventListener('load', () => {
-      const perfData = window.performance.timing;
-      const pageLoadTime = perfData.loadEventEnd - perfData.navigationStart;
-      console.log(`Page loaded in: ${pageLoadTime}ms`);
-    });
-  }
-}
-
-monitorPerformance();
-
-// ============================================
-// 9. ACCESSIBILITY FEATURES
-// ============================================
-
-// Keyboard navigation support
-document.addEventListener('keydown', (e) => {
-  // Alt + S: scroll to services
-  if (e.altKey && e.key === 's') {
-    smoothScrollToSection('services');
-  }
-  // Alt + P: scroll to projects
-  if (e.altKey && e.key === 'p') {
-    smoothScrollToSection('projects');
-  }
-  // Alt + C: scroll to contact
-  if (e.altKey && e.key === 'c') {
-    smoothScrollToSection('contact');
-  }
+// Запускаем при загрузке
+document.addEventListener('DOMContentLoaded', () => {
+  initScrollTop();
 });
 
-console.log('Keyboard shortcuts enabled: Alt+S (Services), Alt+P (Projects), Alt+C (Contact)');
 
-// ============================================
-// 10. ANALYTICS & TRACKING
-// ============================================
-
-// Track user interactions
-const analytics = {
-  pageViews: 1,
-  interactions: {
-    navClicks: 0,
-    buttonClicks: 0,
-    formSubmissions: formSubmissions.length,
-    themeToggles: 0
-  },
-
-  recordNavClick() {
-    this.interactions.navClicks++;
-    console.log('Nav clicks:', this.interactions.navClicks);
-  },
-
-  recordButtonClick() {
-    this.interactions.buttonClicks++;
-    console.log('Button clicks:', this.interactions.buttonClicks);
-  },
-
-  getAnalytics() {
-    return {
-      pageViews: this.pageViews,
-      interactions: this.interactions,
-      timestamp: new Date().toLocaleString()
-    };
-  }
-};
-
-// Log analytics on page close
-window.addEventListener('beforeunload', () => {
-  console.log('Session analytics:', analytics.getAnalytics());
-});
