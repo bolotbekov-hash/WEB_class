@@ -1,19 +1,23 @@
 // ============================================
-// 1. NAVIGATION & SCROLLING
+// INITIALIZATION
 // ============================================
 
-// Initialize navigation on page load
 document.addEventListener('DOMContentLoaded', () => {
   initializeNavigation();
   loadThemePreference();
   initializeFormHandling();
   initBurgerMenu();
+  initScrollTop();
+  simpleTypeEffect('.hero h1', 80);
 });
+
+// ============================================
+// 1. NAVIGATION & SCROLLING
+// ============================================
 
 // Setup smooth scrolling for all nav links
 function initializeNavigation() {
   const navLinks = document.querySelectorAll('.nav-link');
-  const contactButtons = document.querySelectorAll('[onclick*="Contact"]');
 
   navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
@@ -35,11 +39,10 @@ function smoothScrollToSection(sectionId) {
       behavior: 'smooth'
     });
 
-    // обновляем активный пункт навигации чуть позже
+    // Update active nav link after scroll
     setTimeout(updateActiveNavLink, 800);
   }
 }
-
 
 // Update which nav link is marked as active
 function updateActiveNavLink() {
@@ -208,6 +211,7 @@ LANGUAGES
 
   console.log('Resume downloaded successfully');
 }
+
 // ============================================
 // 4. CONTACT FORM HANDLING
 // ============================================
@@ -246,24 +250,46 @@ function handleFormSubmission(event) {
   // Clear form
   form.reset();
 
-  // Store in localStorage (optional - for demonstration)
+  // Store in memory (optional - for demonstration)
   storeFormSubmission(data);
 }
 
 // Display success message after form submission
 function showSuccessMessage() {
-  const messageSent = document.getElementById('messageSent');
-
-  if (messageSent) {
-    messageSent.classList.add('show');
-
-    // Remove message after 4 seconds
-    setTimeout(() => {
-      messageSent.classList.remove('show');
-    }, 4000);
-
-    console.log('Success message displayed');
+  // Create success message element if it doesn't exist
+  let messageSent = document.getElementById('messageSent');
+  
+  if (!messageSent) {
+    messageSent = document.createElement('div');
+    messageSent.id = 'messageSent';
+    messageSent.textContent = '✓ Message sent successfully!';
+    messageSent.style.cssText = `
+      position: fixed;
+      top: 100px;
+      right: 20px;
+      background: #00b4d8;
+      color: white;
+      padding: 1rem 1.5rem;
+      border-radius: 0.5rem;
+      font-weight: 500;
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    `;
+    document.body.appendChild(messageSent);
   }
+
+  // Show message
+  setTimeout(() => {
+    messageSent.style.opacity = '1';
+  }, 100);
+
+  // Hide message after 4 seconds
+  setTimeout(() => {
+    messageSent.style.opacity = '0';
+  }, 4000);
+
+  console.log('Success message displayed');
 }
 
 // Store form submissions in memory
@@ -283,6 +309,7 @@ function storeFormSubmission(data) {
 function contactMe() {
   smoothScrollToSection('contact');
 }
+
 // ============================================
 // 6. SCROLL TO TOP BUTTON
 // ============================================
@@ -294,26 +321,99 @@ function initScrollTop() {
   btn.innerHTML = '↑';
   document.body.appendChild(btn);
 
-  // Показывать кнопку, если прокрутили ниже 300px
+  // Show button when scrolled down 300px
   function toggleVisibility() {
     const visible = window.scrollY > 300;
     btn.style.opacity = visible ? '1' : '0';
     btn.style.pointerEvents = visible ? 'auto' : 'none';
   }
 
-  // Привязка событий
-  window.addEventListener('scroll', toggleVisibility);
-  btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  // Smooth scroll to top on click
+  btn.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+
+  // Add hover animation
   btn.addEventListener('mouseenter', () => btn.classList.add('scroll-top--hover'));
   btn.addEventListener('mouseleave', () => btn.classList.remove('scroll-top--hover'));
 
-  // Первичная проверка
+  // Track scroll
+  window.addEventListener('scroll', toggleVisibility);
+
+  // Check initial state on load
   toggleVisibility();
 }
 
-// Запускаем при загрузке
-document.addEventListener('DOMContentLoaded', () => {
-  initScrollTop();
-});
+// ============================================
+// 7. TYPING EFFECT
+// ============================================
 
+function simpleTypeEffect(selector = '.hero h1', speed = 80) {
+  const el = document.querySelector(selector);
+  if (!el) return;               
+  const text = el.textContent.trim();
+  if (!text) return;              
 
+  el.textContent = '';         
+  let i = 0;
+
+  function step() {
+    if (i < text.length) {
+      el.textContent += text[i++];
+      setTimeout(step, speed);
+    }
+  }
+  step();
+}
+
+// ============================================
+// 8. BURGER MENU
+// ============================================
+
+function initBurgerMenu() {
+  const burger = document.getElementById('hamburger');
+  const menu = document.getElementById('menu');
+
+  if (!burger || !menu) return;
+
+  // Toggle menu on burger click
+  burger.addEventListener('click', () => {
+    const expanded = burger.getAttribute('aria-expanded') === 'true';
+    burger.setAttribute('aria-expanded', !expanded);
+    menu.classList.toggle('open');
+  });
+
+  // Close menu when clicking on a link
+  menu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      burger.setAttribute('aria-expanded', 'false');
+      menu.classList.remove('open');
+    });
+  });
+
+  // Close menu when clicking contact button in mobile menu
+  menu.querySelectorAll('.cta-button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      burger.setAttribute('aria-expanded', 'false');
+      menu.classList.remove('open');
+    });
+  });
+
+  // Close menu on window resize to desktop width
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 768) {
+      burger.setAttribute('aria-expanded', 'false');
+      menu.classList.remove('open');
+    }
+  });
+}
+
+// ============================================
+// CONSOLE GREETING
+// ============================================
+
+console.log('%c👋 Welcome to my portfolio!', 'color: #00b4d8; font-size: 20px; font-weight: bold;');
+console.log('%cFeel free to explore the code!', 'color: #999; font-size: 14px;');
